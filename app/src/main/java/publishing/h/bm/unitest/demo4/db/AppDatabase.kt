@@ -5,12 +5,12 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import publishing.h.bm.unitest.demo4.User
-import publishing.h.bm.unitest.utils.Constants
 
 
 @Database(entities = arrayOf(User::class), version = 1)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
+    lateinit var context: Context
 
     companion object {
         private var instance: AppDatabase? = null
@@ -25,8 +25,9 @@ abstract class AppDatabase : RoomDatabase() {
             }
             return instance!!
         }
+
+        fun destroyInstance() {
+            instance = null
+        }
     }
-
-    lateinit var context: Context
-
 }
