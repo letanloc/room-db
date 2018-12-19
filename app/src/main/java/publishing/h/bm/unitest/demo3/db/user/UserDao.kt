@@ -10,10 +10,10 @@ interface UserDao {
     @Insert
     fun addUser(value: UserModel)
 
-    @Query("SELECT * FROM usersDb WHERE userid = :id")
+    @Query("SELECT * FROM UserModel WHERE userid = :id")
     fun getUserById(id: String): UserModel
 
-    @Query("SELECT * FROM usersDb")
+    @Query("SELECT * FROM UserModel")
     fun getAll(): Flowable<List<UserModel>>
 
     @Update

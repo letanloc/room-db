@@ -8,8 +8,7 @@ import androidx.room.PrimaryKey
 import java.util.*
 
 
-@Entity(tableName = "usersDb")
-
+@Entity(tableName = "UserModel")
 class UserModel {
 
     @PrimaryKey

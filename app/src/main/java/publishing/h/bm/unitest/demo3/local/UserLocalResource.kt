@@ -6,6 +6,7 @@ import publishing.h.bm.unitest.demo3.db.user.UserDao
 import publishing.h.bm.unitest.demo3.responstory.UserResource
 
 class UserLocalResource : UserResource {
+
     override fun getAllUser(): Flowable<List<UserModel>> {
         return userDao.getAll()
     }
