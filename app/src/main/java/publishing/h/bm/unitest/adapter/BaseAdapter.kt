@@ -24,6 +24,10 @@ class BaseAdapter : RecyclerView.Adapter<BaseAdapter.ViewHodler>() {
         this.notifyDataSetChanged()
     }
 
+    fun updateDataAt(user: User) {
+        this.list.add(user)
+    }
+
     fun setOnItemClickListener(itemClick: OnItemClick<User>) {
         this.onItemClick = itemClick
     }

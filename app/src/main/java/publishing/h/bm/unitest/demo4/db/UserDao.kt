@@ -1,10 +1,7 @@
 package publishing.h.bm.unitest.demo4.db
 
-import androidx.room.Dao
-import androidx.room.Query
+import androidx.room.*
 import publishing.h.bm.unitest.demo4.User
-import androidx.room.Delete
-import androidx.room.Insert
 
 
 @Dao
@@ -22,7 +19,7 @@ interface UserDao {
     @Insert
     fun insertAll(vararg users: User)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(users: User)
 
     @Delete

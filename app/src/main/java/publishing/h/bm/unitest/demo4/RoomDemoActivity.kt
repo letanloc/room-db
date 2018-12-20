@@ -22,7 +22,7 @@ class RoomDemoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_room_demo)
         initData()
-        getAllData().execute(dao, null, null);
+        getAllData()
 
         /****/
         btnDelete.setOnClickListener({
@@ -42,6 +42,7 @@ class RoomDemoActivity : AppCompatActivity() {
 
     private fun initData() {
         dbHandler = DbThread("DBThread")
+        dbHandler.start()
         db = AppDatabase.getInstance(this)!!
         dao = db.userDao()
         adapter = publishing.h.bm.unitest.adapter.BaseAdapter()
@@ -53,33 +54,58 @@ class RoomDemoActivity : AppCompatActivity() {
     }
 
     private fun addUser(name: String) {
-        var user = User().apply {
-            firstName = name
-            lastName = UUID.randomUUID().toString()
-        }
+        var user = User()
+        user.firstName = name
+        user.lastName = UUID.randomUUID().toString()
+        user.age = 0
+
         var task = Runnable {
             dao.insert(user)
+            var list = dao.getAll() as ArrayList<User>
+            runOnUiThread(Runnable {
+                kotlin.run {
+                    adapter.updateData(list)
+
+                }
+            })
+        }
+        dbHandler.postTask(task)
+
+    }
+
+    private fun getAllData() {
+
+
+        var task = Runnable {
+            var list = dao.getAll() as ArrayList<User>
+            adapter.initData(list)
+
+
         }
         dbHandler.postTask(task)
     }
+//    private class getAllData : AsyncTask<UserDao, Void, ArrayList<User>>() {
+//        override fun doInBackground(vararg p0: UserDao?): ArrayList<User> {
+//            var list = p0[0]!!.getAllUserdata()
+//            return list as ArrayList<User>
+//        }
+//
+//        override fun onPostExecute(result: ArrayList<User>?) {
+//            super.onPostExecute(result)
+//            var result1 = result
+//        }
+//
+//        override fun onPreExecute() {
+//            super.onPreExecute()
+//        }
+//
+//
+//    }
 
-    private class getAllData : AsyncTask<UserDao, Void, ArrayList<User>>() {
-        override fun doInBackground(vararg p0: UserDao?): ArrayList<User> {
-            var list = p0[0]!!.getAllUserdata()
-            return list as ArrayList<User>
-        }
-
-        override fun onPostExecute(result: ArrayList<User>?) {
-            super.onPostExecute(result)
-            var result1 = result
-        }
-
-        override fun onPreExecute() {
-            super.onPreExecute()
-        }
-
-
+    override fun onDestroy() {
+        super.onDestroy()
+        if (dbHandler != null)
+            dbHandler.destroy()
     }
-
 
 }
