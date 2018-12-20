@@ -27,4 +27,7 @@ interface UserDao {
 
     @Delete
     fun delete(user: User)
+
+    @Query("SELECT * FROM user")
+    fun getAllUserdata(): List<User>
 }
