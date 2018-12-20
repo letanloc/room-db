@@ -65,7 +65,6 @@ class RoomDemoActivity : AppCompatActivity() {
             runOnUiThread(Runnable {
                 kotlin.run {
                     adapter.updateData(list)
-
                 }
             })
         }
@@ -74,8 +73,6 @@ class RoomDemoActivity : AppCompatActivity() {
     }
 
     private fun getAllData() {
-
-
         var task = Runnable {
             var list = dao.getAll() as ArrayList<User>
             adapter.initData(list)
